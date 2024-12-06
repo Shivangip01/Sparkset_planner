@@ -296,11 +296,9 @@
             <div class="col-md-4" id="decorators">
                 <h4>Decorators</h4>
                 <ul>
-                    {% for vendor in vendors %}
-                        {% if vendor.vendor_type == 'decorator' %}
-                            <li>{{ vendor.name }} - ${{ vendor.cost }}</li>
-                        {% endif %}
-                    {% endfor %}
+                {% if vendors[0].vendor_type == 'decorator' %}
+                    <li>{{ vendors[0].name }} - ${{ vendors[0].cost }}</li>
+                {% endif %}
                 </ul>
             </div>
         </div>
