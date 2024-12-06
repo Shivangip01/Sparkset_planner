@@ -1,4 +1,7 @@
 django
+
+whitenoise
+
 # sepolicy==3.4
 # setools==4.4.1
 six==1.15.0
