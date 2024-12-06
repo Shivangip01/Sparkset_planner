@@ -53,9 +53,25 @@
     <div class="notifications-content">
         <h2>Booking Notifications</h2>
         <p>Here are the bookings that include your services:</p>
+        
+         <!-- Future Bookings -->
+        <h3 class="mt-4">Upcoming Bookings</h3>
+        <ul class="list-group mt-4">
+            {% for booking in past_bookings %}
+                <li class="list-group-item">
+                    <strong>Event:</strong> {{ booking.event.name }}<br>
+                    <strong>Booked By:</strong> {{ booking.user.username }}<br>
+                    <strong>Date:</strong> {{ booking.start_date }}<br>
+                    <strong>Time:</strong> {{ booking.start_time }} to {{ booking.end_time }}<br>
+                    <a href="{% url 'delete_booking' booking.id %}" class="btn btn-danger btn-sm mt-2">Delete Booking</a>
+                </li>
+            {% empty %}
+                <li class="list-group-item text-center">No past events available for deletion.</li>
+            {% endfor %}
+        </ul>
 
-        <!-- Future Bookings -->
-        <h3>Upcoming Bookings</h3>
+      
+        <h3>Past Events</h3>
         <ul class="list-group mt-4">
             {% for booking in future_bookings %}
                 <li class="list-group-item">
@@ -70,21 +86,7 @@
             {% endfor %}
         </ul>
 
-        <!-- Past Bookings -->
-        <h3 class="mt-4">Past Events</h3>
-        <ul class="list-group mt-4">
-            {% for booking in past_bookings %}
-                <li class="list-group-item">
-                    <strong>Event:</strong> {{ booking.event.name }}<br>
-                    <strong>Booked By:</strong> {{ booking.user.username }}<br>
-                    <strong>Date:</strong> {{ booking.start_date }}<br>
-                    <strong>Time:</strong> {{ booking.start_time }} to {{ booking.end_time }}<br>
-                    <a href="{% url 'delete_booking' booking.id %}" class="btn btn-danger btn-sm mt-2">Delete Booking</a>
-                </li>
-            {% empty %}
-                <li class="list-group-item text-center">No past events available for deletion.</li>
-            {% endfor %}
-        </ul>
+
 
         <div class="text-center mt-4">
             <a href="{% url 'vendor_dashboard' %}" class="btn btn-primary">Back to Dashboard</a>
