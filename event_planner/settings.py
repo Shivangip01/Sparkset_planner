@@ -159,7 +159,10 @@ SECRET_KEY = '8(lo2l@xji_o=kd=_w3*yw318=v6%z+72k%8u-l8*l!qrklsw@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False  # Set to False for production
 
-ALLOWED_HOSTS = ['your-domain.com', 'your-elasticbeanstalk-environment-url']  # Update for production
+# ALLOWED_HOSTS = ['your-domain.com', 'your-elasticbeanstalk-environment-url']  # Update for production
+
+ALLOWED_HOSTS = ['*']
+
 
 # Application definition
 INSTALLED_APPS = [
@@ -236,11 +239,8 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# CSRF Trusted Origins
-CSRF_TRUSTED_ORIGINS = [
-    'https://your-domain.com',
-    'https://your-elasticbeanstalk-environment-url',
-]
+CSRF_TRUSTED_ORIGINS='https://5ab75398c07f44229ebf1cd4f661e66a.vfs.cloud9.eu-west-1.amazonaws.com','http://5ab75398c07f44229ebf1cd4f661e66a.vfs.cloud9.eu-west-1.amazonaws.com'
+
 
 # Login/Logout redirects
 LOGIN_REDIRECT_URL = 'index'
