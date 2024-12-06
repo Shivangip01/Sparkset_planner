@@ -19,6 +19,8 @@ from django.http import HttpResponseRedirect
 from datetime import datetime
 from django.utils import timezone
 
+from django.db.models import Q
+
 def index(request):
     """
     Renders the index page with all available events, vendors, and feedback.
@@ -149,9 +151,16 @@ def vendor_notifications(request):
     # Get all bookings involving the vendor
     bookings = Booking.objects.filter(vendors=vendor_profile.vendor)
 
-    # Separate bookings into past and future based on both date and time
-    future_bookings = bookings.filter(start_date__gte=current_date.date(), start_time__gte=current_date.time())
-    past_bookings = bookings.exclude(id__in=future_bookings)
+    # # Separate bookings into past and future based on both date and time
+    # future_bookings = bookings.filter(start_date__gte=current_date.date(), start_time__gte=current_date.time())
+    # past_bookings = bookings.exclude(id__in=future_bookings)
+
+    future_bookings = bookings.filter(
+    Q(start_date__gt=current_date.date()) |  # Future dates
+    Q(start_date=current_date.date(), start_time__gte=current_date.time())  # Today, but later time
+)
+
+    past_bookings = bookings.exclude(id__in=future_bookings)   
 
     # Debug output to confirm past bookings
     print("Future Bookings:", future_bookings)
