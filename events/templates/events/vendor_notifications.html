@@ -79,7 +79,7 @@
                     <strong>Booked By:</strong> {{ past.user.username }}<br>
                     <strong>Date:</strong> {{ past.start_date }}<br>
                     <strong>Time:</strong> {{ past.start_time }} to {{ past.end_time }}<br>
-                    <a href="{% url 'delete_booking' booking.id %}" class="btn btn-danger btn-sm mt-2">Delete Booking</a>
+                    <a href="{% url 'delete_booking' past.id %}" class="btn btn-danger btn-sm mt-2">Delete Booking</a>
                 </li>
             {% empty %}
                 <li class="list-group-item text-center">No past events available for deletion.</li>
