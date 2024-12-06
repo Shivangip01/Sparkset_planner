@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Dashboard</title>
+    <link rel="stylesheet" href="{% static 'events/css/styles.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .background {
+            background: url("{% static 'events/images/vendor-dashboard-background.jpg' %}") no-repeat center center/cover;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .dashboard-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 3rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            width: 100%;
+        }
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .btn-container {
+            margin-top: 2rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <div class="dashboard-container">
+            <h2 class="text-center">Vendor Dashboard</h2>
+            <p class="text-center">Welcome to your dashboard! Here you can manage your services and view your bookings.</p>
+            
+            <!-- Add Service Button -->
+            <div class="btn-container">
+                <a href="{% url 'add_service' %}" class="btn btn-success btn-lg">Add a New Service</a>
+            </div>
+
+            <!-- Booking Notifications Button -->
+            <div class="btn-container mt-3">
+                <a href="{% url 'vendor_notifications' %}" class="btn btn-primary btn-lg">View Booking Notifications</a>
+            </div>
+
+            <!-- Back to Home Button -->
+            <div class="btn-container mt-3">
+                <a href="{% url 'index' %}" class="btn btn-secondary btn-lg">Back to Home</a>
+            </div>
+
+            <!-- Logout Button -->
+            <div class="btn-container mt-3">
+                <a href="{% url 'logout' %}" class="btn btn-danger btn-lg">Logout</a>
+            </div>
+            
+            <!-- List of Services -->
+            <h3 class="mt-5">Your Services</h3>
+            <ul class="list-group mt-3">
+                {% for service in services %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>{{ service.service_name }} - ${{ service.price }}</span>
+                        <a href="{% url 'delete_service' service.id %}" class="btn btn-danger btn-sm">Delete</a>
+                    </li>
+                {% empty %}
+                    <li class="list-group-item">You haven't added any services yet.</li>
+                {% endfor %}
+            </ul>
+
+            <!-- List of Old Events with Delete Option -->
+            <h3 class="mt-5">Past Events</h3>
+            <ul class="list-group mt-3">
+                {% for booking in past_bookings %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>{{ booking.event.name }} - {{ booking.start_date }} to {{ booking.end_date }}</span>
+                        <a href="{% url 'delete_booking' booking.id %}" class="btn btn-danger btn-sm">Delete</a>
+                    </li>
+                {% empty %}
+                    <li class="list-group-item">No past events available for deletion.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

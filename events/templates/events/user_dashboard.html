@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Storyboard</title>
+    <link rel="stylesheet" href="{% static 'events/css/styles.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .dashboard-page {
+            background: url("{% static 'events/images/dashboard-background.jpg' %}") no-repeat center center/cover;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            position: relative;
+            padding: 50px 0;
+        }
+        .dashboard-page .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6); /* Adjust opacity for readability */
+            z-index: 1;
+        }
+        .dashboard-content {
+            position: relative;
+            z-index: 2;
+            background-color: rgba(0, 0, 0, 0.5); /* Optional: Adds a semi-transparent background for content */
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+        .dashboard-content h2 {
+            color: #f8f9fa;
+        }
+        .dashboard-content .card {
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #333;
+        }
+        .dashboard-content .card-header {
+            background-color: #007bff; /* Darker blue for the header */
+        }
+        .dashboard-content .badge {
+            background-color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-page">
+    <div class="overlay"></div>
+    <div class="dashboard-content">
+        <h2>{{ greeting_message }}</h2>
+        
+        {% if bookings %}
+            <div class="row">
+                {% for booking in bookings %}
+                    <div class="col-md-6 mb-4">
+                        <div class="card shadow-sm">
+                            <div class="card-header text-white">
+                                <h5><p><strong style="font-size: 1.5rem;">{{ booking.event.name }}</strong></p></h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Booking Date:</strong> {{ booking.booking_date|date:"M d, Y, h:i A" }}</p>
+                                <p><strong>Event Dates:</strong> {{ booking.start_date|date:"M d, Y" }} - {{ booking.end_date|date:"M d, Y" }}</p>
+                                <p><strong>Vendors:</strong></p>
+                                <ul class="list-unstyled">
+                                    {% for vendor in booking.vendors.all %}
+                                        <li><span class="badge">{{ vendor.name }}</span></li>
+                                    {% endfor %}
+                                </ul>
+                                <p class="text-right"><strong>Total Cost: ${{ booking.total_cost }}</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-center mt-4">You have no bookings at the moment. Explore our events to start planning!</p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Bootstrap Scripts -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

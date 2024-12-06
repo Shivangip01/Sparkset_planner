@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Login</title>
+    <link rel="stylesheet" href="{% static 'events/css/styles.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+    .background {
+        background: url("{% static 'events/images/vendor-login-background.jpg' %}") no-repeat center center/cover;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .login-form-container {
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 3rem 2rem;
+        border-radius: 10px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        max-width: 500px; /* Increase max-width for a larger dialog box */
+        width: 100%;
+    }
+    h2 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+    .btn-primary {
+        background-color: #8B0000; /* Deep red color for the login button */
+        border-color: #8B0000;
+    }
+    .btn-primary:hover {
+        background-color: #a30000; /* Slightly lighter shade for hover effect */
+        border-color: #a30000;
+    }
+    .explore-events-description {
+        margin-top: 2rem;
+        text-align: center;
+        font-size: 1.2rem;
+        color: #333;
+    }
+</style>
+</head>
+<body>
+    <div class="background">
+        <div class="login-form-container">
+            <h2 class="text-center">Vendor Login</h2>
+            <form method="post" action="">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary w-100 mt-3">Login</button>
+            </form>
+            <p class="text-center mt-3">
+                Don't have an account? <a href="{% url 'vendor_signup' %}">Sign up here</a>.
+                <p class="mt-3"><a href="{% url 'password_reset' %}">Forgot Password?</a></p>
+            </p>
+        </div>
+    </div>
+
+    
+</body>
+</html>

@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Service</title>
+    <link rel="stylesheet" href="{% static 'events/css/styles.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .background {
+            background: url("{% static 'events/images/vendor-dashboard-background.jpg' %}") no-repeat center center/cover;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 3rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <div class="form-container">
+            <h2 class="text-center">Add Service</h2>
+            <form method="post" action="">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary w-100 mt-3">Add Service</button>
+            </form>
+            <p class="text-center mt-3">
+                <a href="{% url 'vendor_dashboard' %}">Back to Dashboard</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

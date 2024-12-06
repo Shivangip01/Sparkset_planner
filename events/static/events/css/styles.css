@@ -1,0 +1,318 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: 'Roboto', sans-serif;
+    background: url('../images/new_background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #333;
+    line-height: 1.6;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Container Styling */
+.container {
+    background-color: #f8f9fa;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    max-width: 1200px;
+    margin: 50px auto;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Main Content Styling */
+.main-content {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Event Card Styling */
+.event-card {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 25px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.event-card h3 {
+    margin-bottom: 10px;
+    color: #007BFF;
+}
+
+.event-card .login-book {
+    background-color: #ff5e5e;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.event-card .login-book:hover {
+    background-color: #e04a4a;
+}
+
+/* Hero Section */
+.hero-section {
+    position: relative;
+    color: white;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.hero-section .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-section h1 {
+    font-size: 3em;
+}
+
+.hero-section p {
+    font-size: 1.2em;
+    margin: 20px 0;
+}
+
+.hero-section .cta-button {
+    background-color: #e74c3c;
+    padding: 15px 30px;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+.hero-section .cta-button:hover {
+    background-color: #c0392b;
+}
+
+/* Booking Form Enhancements */
+.booking-form {
+    max-width: 500px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.booking-form h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    display: block;
+    color: #333;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.form-control:focus {
+    border-color: #ff5e5e;
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 94, 94, 0.5);
+}
+
+.btn-primary {
+    background-color: #ff5e5e;
+    border: none;
+    padding: 0.75rem;
+    width: 100%;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: #e04a4a;
+    transform: translateY(-2px);
+}
+
+.btn-primary:focus {
+    box-shadow: 0 0 10px rgba(224, 74, 74, 0.5);
+}
+
+.mt-3 {
+    margin-top: 1rem !important;
+}
+
+.booking-page a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+.booking-page a:hover {
+    text-decoration: underline;
+}
+
+/* Footer Styling */
+.footer {
+    text-align: center;
+    background: #333;
+    color: #fff;
+    padding: 20px 0;
+    margin-top: 40px;
+}
+
+.footer .social-links a {
+    color: #ff5e5e;
+    margin: 0 10px;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer .social-links a:hover {
+    color: #ffffff;
+}
+
+/* Styling for the welcome user message */
+.welcome-user {
+    font-weight: bold;
+    color: #ffffff;
+    margin-right: 10px;
+}
+
+/* Navigation Bar */
+.navbar {
+    padding: 1rem 2rem;
+    margin-bottom: 0 !important;
+}
+
+.nav-link {
+    color: #333;
+}
+
+.nav-link:hover {
+    color: #ff5e5e;
+}
+
+/* Additional CSS for Cards */
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.card-text {
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+    .hero-section {
+        height: 60vh;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+    }
+
+    .container {
+        padding: 1rem;
+    }
+
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    .booking-form {
+        width: 90%;
+        padding: 1.5rem;
+    }
+
+    .btn-primary {
+        font-size: 1rem;
+    }
+}
+
+#about-us {
+    background-color: #f8f9fa;
+    padding: 3rem 1rem;
+    border-radius: 8px;
+}
+
+#about-us h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+#about-us p {
+    font-size: 1.1rem;
+    color: #555;
+    line-height: 1.6;
+}

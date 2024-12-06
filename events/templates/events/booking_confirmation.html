@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmation</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        .confirmation-page {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url("{% static 'events/images/confirmation_background.jpg' %}");
+            background-size: cover;
+            background-position: center;
+        }
+
+        .confirmation-content {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 4rem;  /* Increased padding for better spacing */
+            border-radius: 15px;  /* Increased border radius for a smoother look */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            width: 600px;  /* Increased width for a larger dialog box */
+            max-width: 90%;  /* Ensure it fits well on smaller screens */
+            text-align: center;
+        }
+
+        .confirmation-content h2, .confirmation-content h1 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .confirmation-content p {
+            color: #555;
+            margin-bottom: 1rem;
+        }
+
+        .btn-home {
+            background-color: #ff5e5e;
+            color: white;
+            padding: 1rem 2rem;  /* Increased padding for better button appearance */
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .btn-home:hover {
+            background-color: #e04a4a;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="confirmation-page">
+        <div class="confirmation-content">
+            <h1>Booking Confirmation</h1>
+            <p>Thank you, {{ booking.user.username }}! Your booking has been confirmed.</p>
+            <h2>Event Details:</h2>
+            <p><strong>Event:</strong> {{ booking.event.name }}</p>
+            <p><strong>Start Date:</strong> {{ booking.start_date|date:"F d, Y" }}</p>
+            <p><strong>End Date:</strong> {{ booking.end_date|date:"F d, Y" }}</p>
+            <p><strong>Start Time:</strong> {{ booking.start_time|time:"g:i a" }}</p>
+            <p><strong>End Time:</strong> {{ booking.end_time|time:"g:i a" }}</p>
+            <p><strong>Total Cost:</strong> ${{ booking.total_cost }}</p>
+
+            <h2>Additional Services:</h2>
+            <ul>
+                {% for vendor in booking.vendors.all %}
+                    <li>{{ vendor.name }} - ${{ vendor.cost }}</li>
+                {% endfor %}
+            </ul>
+
+            <a href="{% url 'index' %}" class="btn-home">Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

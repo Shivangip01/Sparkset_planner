@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About SparkSet</title>
+    <link rel="stylesheet" href="{% static 'events/css/styles.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .about-page {
+            background: url("{% static 'events/images/about-background.jpg' %}") no-repeat center center/cover;
+            height: 100vh; /* Adjust as needed */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            color: white;
+            padding: 50px 0;
+        }
+        .about-page .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6); /* Adjust opacity as needed */
+            z-index: 1;
+        }
+        .about-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            background-color: rgba(0, 0, 0, 0.5); /* Optional: Adds a semi-transparent background for content */
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .about-content h1, .about-content h3, .about-content p, .about-content ul {
+            color: #f8f9fa;
+        }
+        .about-content ul {
+            list-style-type: none;
+            padding: 0;
+            text-align: left;
+        }
+        .about-content ul li::before {
+            content: "✔️ ";
+            color: #f39c12;
+        }
+    </style>
+</head>
+<body>
+
+<!-- About Page Section -->
+<div class="about-page">
+    <div class="overlay"></div>
+    <div class="about-content">
+        <h1>About SparkSet</h1>
+        <p class="lead">
+            "Welcome to SparkSet – Where Dreams Take Center Stage And Every Event Becomes a Masterpiece! 🎉"
+        </p>
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <h3>Our Mission</h3>
+                <p>Ready to bring your vision to life? At SparkSet, we don’t just plan events – we craft unforgettable experiences that celebrate your style, passions, and uniqueness. From dreamy weddings to impactful corporate gatherings, SparkSet is your dedicated partner in making each moment extraordinary.</p>
+                <p>Our team of creative experts handles every detail, blending imagination with precision to deliver events that sparkle with perfection. Trust us to bring your ideas to life, so you can immerse yourself in the moments that matter most. ✨</p>
+                <p>"SparkSet – Because Every Event Deserves a Touch of Magic!"</p>
+            </div>
+            <div class="col-md-6">
+                <h3>Why Choose Us?</h3>
+                <ul>
+                    <li>Experienced and dedicated team.</li>
+                    <li>Creative, customized planning for every event.</li>
+                    <li>Attention to detail and commitment to excellence.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Optional: Add any additional content or footer here -->
+
+<!-- Bootstrap Scripts -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

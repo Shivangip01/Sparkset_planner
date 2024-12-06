@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Notifications</title>
+    <link rel="stylesheet" href="{% static 'events/css/styles.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .notifications-page {
+            background: url("{% static 'events/images/notifications-background.jpg' %}") no-repeat center center/cover;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            position: relative;
+            padding: 50px 0;
+        }
+        .notifications-page .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1;
+        }
+        .notifications-content {
+            position: relative;
+            z-index: 2;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+        .notifications-content h2 {
+            color: #f8f9fa;
+        }
+        .list-group-item {
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="notifications-page">
+    <div class="overlay"></div>
+    <div class="notifications-content">
+        <h2>Booking Notifications</h2>
+        <p>Here are the bookings that include your services:</p>
+
+        <!-- Future Bookings -->
+        <h3>Upcoming Bookings</h3>
+        <ul class="list-group mt-4">
+            {% for booking in future_bookings %}
+                <li class="list-group-item">
+                    <strong>Event:</strong> {{ booking.event.name }}<br>
+                    <strong>Booked By:</strong> {{ booking.user.username }}<br>
+                    <strong>Date:</strong> {{ booking.start_date }}<br>
+                    <strong>Time:</strong> {{ booking.start_time }} to {{ booking.end_time }}<br>
+                    <strong>Message:</strong> You have been booked for this event.
+                </li>
+            {% empty %}
+                <li class="list-group-item text-center">No upcoming bookings available at the moment.</li>
+            {% endfor %}
+        </ul>
+
+        <!-- Past Bookings -->
+        <h3 class="mt-4">Past Events</h3>
+        <ul class="list-group mt-4">
+            {% for booking in past_bookings %}
+                <li class="list-group-item">
+                    <strong>Event:</strong> {{ booking.event.name }}<br>
+                    <strong>Booked By:</strong> {{ booking.user.username }}<br>
+                    <strong>Date:</strong> {{ booking.start_date }}<br>
+                    <strong>Time:</strong> {{ booking.start_time }} to {{ booking.end_time }}<br>
+                    <a href="{% url 'delete_booking' booking.id %}" class="btn btn-danger btn-sm mt-2">Delete Booking</a>
+                </li>
+            {% empty %}
+                <li class="list-group-item text-center">No past events available for deletion.</li>
+            {% endfor %}
+        </ul>
+
+        <div class="text-center mt-4">
+            <a href="{% url 'vendor_dashboard' %}" class="btn btn-primary">Back to Dashboard</a>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap Scripts -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
