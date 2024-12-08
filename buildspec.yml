@@ -36,6 +36,17 @@ phases:
 
   build:
     commands:
+      - echo "Cleaning up old Elastic Beanstalk versions..."
+      - APP_NAME="x23188006-sparkset-planner"
+      - VERSIONS_TO_KEEP=5
+      - |
+        aws elasticbeanstalk describe-application-versions --application-name $APP_NAME \
+        --query 'ApplicationVersions[*].[VersionLabel,DateCreated]' \
+        --output text | sort -k2 | head -n -$VERSIONS_TO_KEEP | awk '{print $1}' | while read version; do
+          echo "Deleting version: $version"
+          aws elasticbeanstalk delete-application-version --application-name $APP_NAME --version-label $version --delete-source-bundle
+         done
+
       - ls -l 
       - pwd
       - ls
