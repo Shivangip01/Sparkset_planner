@@ -1,10 +1,10 @@
-#from django.contrib import admin
+# from django.contrib import admin
 
 # Register your models here.
-#from django.contrib import admin
-#from .models import Event
+# from django.contrib import admin
+# from .models import Event
 
-#admin.site.register(Event)
+# admin.site.register(Event)
 from django.contrib import admin
 from .models import Event, Booking, Vendor
 from .models import VendorProfile
@@ -17,5 +17,3 @@ admin.site.register(Event)
 admin.site.register(Booking)
 admin.site.register(Vendor)
 admin.site.register(Feedback)
-
-

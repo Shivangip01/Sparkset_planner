@@ -14,11 +14,14 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Service',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('service_name', models.CharField(max_length=100)),
                 ('description', models.TextField(blank=True, null=True)),
-                ('price', models.DecimalField(blank=True, decimal_places=2, max_digits=10, null=True)),
-                ('vendor', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='services', to='events.vendor')),
+                ('price', models.DecimalField(blank=True,
+                 decimal_places=2, max_digits=10, null=True)),
+                ('vendor', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                 related_name='services', to='events.vendor')),
             ],
         ),
     ]

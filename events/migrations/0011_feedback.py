@@ -13,11 +13,13 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Feedback',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('customer_name', models.CharField(max_length=100)),
                 ('email', models.EmailField(max_length=254)),
                 ('event', models.CharField(max_length=100)),
-                ('rating', models.IntegerField(choices=[(1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5')], help_text='Rating (1 to 5)')),
+                ('rating', models.IntegerField(choices=[
+                 (1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5')], help_text='Rating (1 to 5)')),
                 ('feedback_message', models.TextField()),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
             ],

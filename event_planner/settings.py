@@ -14,8 +14,6 @@ import os
 from pathlib import Path
 
 
-
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'events',
-    
+
 ]
 
 MIDDLEWARE = [
@@ -127,14 +125,14 @@ USE_TZ = True
 STATIC_URL = '/static/'
 # settings.py
 
-#STATIC_URL = '/static/'
+# STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'index'
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
-CSRF_TRUSTED_ORIGINS='https://5ab75398c07f44229ebf1cd4f661e66a.vfs.cloud9.eu-west-1.amazonaws.com','http://5ab75398c07f44229ebf1cd4f661e66a.vfs.cloud9.eu-west-1.amazonaws.com'
+CSRF_TRUSTED_ORIGINS = 'https://5ab75398c07f44229ebf1cd4f661e66a.vfs.cloud9.eu-west-1.amazonaws.com', 'http://5ab75398c07f44229ebf1cd4f661e66a.vfs.cloud9.eu-west-1.amazonaws.com'
 
 # settings.py
 
@@ -144,8 +142,6 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'sparkset01@gmail.com'  # Replace with your email address
 EMAIL_HOST_PASSWORD = 'cuvm atpi wbnn ooyr'  # Replace with your email password
-
-
 
 
 # import os
@@ -262,4 +258,3 @@ EMAIL_HOST_PASSWORD = 'cuvm atpi wbnn ooyr'  # Replace with your email password
 # X_FRAME_OPTIONS = 'DENY'
 # SECURE_BROWSER_XSS_FILTER = True
 # SECURE_CONTENT_TYPE_NOSNIFF = True
-
