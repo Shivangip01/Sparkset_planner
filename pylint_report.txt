@@ -238,6 +238,6 @@ events/views.py:1:0: R0801: Similar lines in 2 files
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('service_name', models.CharField(max_length=100)), (duplicate-code)
 
------------------------------------
-Your code has been rated at 3.14/10
+------------------------------------------------------------------
+Your code has been rated at 3.14/10 (previous run: 3.14/10, +0.00)
 
