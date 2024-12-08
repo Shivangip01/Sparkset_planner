@@ -16,13 +16,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Booking',
             fields=[
-                ('id', models.AutoField(auto_created=True,
-                 primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('booking_date', models.DateTimeField(auto_now_add=True)),
-                ('event', models.ForeignKey(
-                    on_delete=django.db.models.deletion.CASCADE, to='events.Event')),
-                ('user', models.ForeignKey(
-                    on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('event', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='events.Event')),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]

@@ -13,11 +13,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Vendor',
             fields=[
-                ('id', models.AutoField(auto_created=True,
-                 primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=100)),
-                ('vendor_type', models.CharField(choices=[('caterer', 'Caterer'), (
-                    'photographer', 'Photographer'), ('decorator', 'Decorator')], max_length=20)),
+                ('vendor_type', models.CharField(choices=[('caterer', 'Caterer'), ('photographer', 'Photographer'), ('decorator', 'Decorator')], max_length=20)),
                 ('cost', models.DecimalField(decimal_places=2, max_digits=10)),
             ],
         ),

@@ -13,7 +13,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='event',
             name='event_type',
-            field=models.CharField(blank=True, choices=[('wedding', 'Wedding'), (
-                'birthday', 'Birthday Party'), ('corporate', 'Corporate Event')], max_length=20, null=True),
+            field=models.CharField(blank=True, choices=[('wedding', 'Wedding'), ('birthday', 'Birthday Party'), ('corporate', 'Corporate Event')], max_length=20, null=True),
         ),
     ]

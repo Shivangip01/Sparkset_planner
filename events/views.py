@@ -3,23 +3,23 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-# Import Feedback model
-from .models import Event, Booking, Vendor, VendorProfile, Service, Feedback
+from .models import Event, Booking, Vendor, VendorProfile, Service, Feedback  # Import Feedback model
 from django.contrib.auth.models import User
-# Import FeedbackForm
-from .forms import BookingForm, VendorSignUpForm, ServiceForm, FeedbackForm
+from .forms import BookingForm, VendorSignUpForm, ServiceForm, FeedbackForm  # Import FeedbackForm
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
-from django.core.exceptions import ObjectDoesNotExist
-# from .models import Feedback
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
+from django.http import HttpResponse
+from datetime import date
+#from .models import Feedback
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from datetime import datetime
 from django.utils import timezone
 
 from django.db.models import Q
-
 
 def index(request):
     """
@@ -30,7 +30,7 @@ def index(request):
     services = Service.objects.all()
     feedbacks = Feedback.objects.all()[:5]  # Fetch the latest 5 feedbacks
     print("Feedbacks:", feedbacks)  # Add this to check data
-
+    
     return render(request, 'events/index.html', {
         'events': events,
         'vendors': vendors,
@@ -65,18 +65,15 @@ def signup(request):
             return redirect('signup')
 
         # Create User
-        user = User.objects.create_user(
-            username=username, email=email, password=password)
+        user = User.objects.create_user(username=username, email=email, password=password)
         user.save()
 
         # Automatically log the user in after signup
         login(request, user)
-        messages.success(
-            request, f"Account created successfully! Welcome, {user.username}!")
+        messages.success(request, f"Account created successfully! Welcome, {user.username}!")
         return redirect('index')
-
+    
     return render(request, 'events/signup.html')
-
 
 def vendor_signup(request):
     """
@@ -87,15 +84,12 @@ def vendor_signup(request):
         form = VendorSignUpForm(request.POST)
         if form.is_valid():
             user = form.save()  # This also creates the Vendor and VendorProfile
-            # Log the user in after successful registration
-            login(request, user)
+            login(request, user)  # Log the user in after successful registration
             messages.success(request, "Vendor account created successfully!")
-            # Redirect to a vendor dashboard or desired page
-            return redirect('vendor_dashboard')
+            return redirect('vendor_dashboard')  # Redirect to a vendor dashboard or desired page
     else:
         form = VendorSignUpForm()
     return render(request, 'events/vendor_signup.html', {'form': form})
-
 
 def vendor_login(request):
     """
@@ -110,8 +104,7 @@ def vendor_login(request):
             if user is not None:
                 login(request, user)
                 messages.success(request, f"Welcome back, {username}!")
-                # Redirect to vendor dashboard
-                return redirect('vendor_dashboard')
+                return redirect('vendor_dashboard')  # Redirect to vendor dashboard
             else:
                 messages.error(request, "Invalid username or password.")
         else:
@@ -119,7 +112,6 @@ def vendor_login(request):
     else:
         form = AuthenticationForm()
     return render(request, 'events/vendor_login.html', {'form': form})
-
 
 class VendorLoginView(LoginView):
     """
@@ -132,16 +124,17 @@ class VendorLoginView(LoginView):
         return reverse_lazy('vendor_dashboard')
 
 
-# @login_required
-# def vendor_dashboard(request):
-# return render(request, 'events/vendor_dashboard.html')
+#@login_required
+#def vendor_dashboard(request):
+#return render(request, 'events/vendor_dashboard.html')
 
-# @login_required
-# def vendor_notifications(request):
-
-    # vendor = request.user.vendorprofile.vendor  # Assume VendorProfile links User to Vendor
-    # bookings = Booking.objects.filter(vendors=vendor)  # Find bookings linked to this vendor
-    # return render(request, 'events/vendor_notifications.html', {'bookings': bookings})
+#@login_required
+#def vendor_notifications(request):
+    
+    #vendor = request.user.vendorprofile.vendor  # Assume VendorProfile links User to Vendor
+    #bookings = Booking.objects.filter(vendors=vendor)  # Find bookings linked to this vendor
+    #return render(request, 'events/vendor_notifications.html', {'bookings': bookings})
+    
 
 
 @login_required
@@ -163,12 +156,11 @@ def vendor_notifications(request):
     # past_bookings = bookings.exclude(id__in=future_bookings)
 
     future_bookings = bookings.filter(
-        Q(start_date__gt=current_date.date()) |  # Future dates
-        # Today, but later time
-        Q(start_date=current_date.date(), start_time__gte=current_date.time())
-    )
+    Q(start_date__gt=current_date.date()) |  # Future dates
+    Q(start_date=current_date.date(), start_time__gte=current_date.time())  # Today, but later time
+)
 
-    past_bookings = bookings.exclude(id__in=future_bookings)
+    past_bookings = bookings.exclude(id__in=future_bookings)   
 
     # Debug output to confirm past bookings
     print("Future Bookings:", future_bookings)
@@ -180,42 +172,36 @@ def vendor_notifications(request):
     }
 
     return render(request, 'events/vendor_notifications.html', context)
-
-
+    
 @login_required
 def vendor_dashboard(request):
-
-    # Get services for the logged-in vendor
-    services = Service.objects.filter(vendor=request.user)
+   
+    services = Service.objects.filter(vendor=request.user)  # Get services for the logged-in vendor
     return render(request, 'events/vendor_dashboard.html', {'services': services})
-
-
+    
+    
 @login_required
 def user_dashboard(request):
     user = request.user
     bookings = Booking.objects.filter(user=user)
 
     if bookings.exists():
-        greeting_message = "Welcome back, {}! Here are your upcoming and past bookings:".format(
-            user.username)
+        greeting_message = "Welcome back, {}! Here are your upcoming and past bookings:".format(user.username)
     else:
-        greeting_message = "Hello, {}! You have no bookings yet. Start planning your next event with us!".format(
-            user.username)
-
+        greeting_message = "Hello, {}! You have no bookings yet. Start planning your next event with us!".format(user.username)
+    
     context = {
         'greeting_message': greeting_message,
         'bookings': bookings,
     }
     return render(request, 'events/user_dashboard.html', context)
-
-
+    
 @login_required
 def delete_service(request, service_id):
     """
     Allows a vendor to delete one of their services.
     """
-    service = get_object_or_404(
-        Service, id=service_id, vendor=request.user)  # Ensure service belongs to the vendor
+    service = get_object_or_404(Service, id=service_id, vendor=request.user)  # Ensure service belongs to the vendor
     if request.method == 'POST':
         service.delete()
         messages.success(request, "Service deleted successfully!")
@@ -240,10 +226,9 @@ def add_service(request):
         form = ServiceForm()
     return render(request, 'events/add_service.html', {'form': form})
 
-
 @login_required
 def book_event(request, event_id):
-
+   
     event = get_object_or_404(Event, id=event_id)
 
     if request.method == 'POST':
@@ -266,23 +251,24 @@ def book_event(request, event_id):
 
     # Pass event object to the template for event-specific customization
     return render(request, 'events/book_event.html', {'form': form, 'event': event})
+    
 
-
+   
 @login_required
 def process_payment(request, booking_id):
     """
     Handles the payment processing.
     """
     booking = get_object_or_404(Booking, id=booking_id)
-
+    
     # Placeholder for payment logic (can be replaced with real payment gateway integration)
     if request.method == 'POST':
         # Simulating successful payment
-        messages.success(
-            request, f"Payment for {booking.event.name} was successful!")
+        messages.success(request, f"Payment for {booking.event.name} was successful!")
         return redirect('booking_confirmation', booking_id=booking.id)
 
     return render(request, 'events/process_payment.html', {'booking': booking})
+
 
 
 @login_required
@@ -316,15 +302,12 @@ def booking_confirmation(request, booking_id):
                 f'Start Time: {booking.start_time}\nEnd Time: {booking.end_time}\n\n'
                 'Thank you for being a part of our team!\n\nBest Regards,\nSparkset Planner Team'
             )
-            # Assuming each vendor has a linked user email
-            vendor_recipient_list = [vendor.profile.user.email]
+            vendor_recipient_list = [vendor.profile.user.email]  # Assuming each vendor has a linked user email
 
-            send_mail(vendor_subject, vendor_message,
-                      settings.EMAIL_HOST_USER, vendor_recipient_list)
+            send_mail(vendor_subject, vendor_message, settings.EMAIL_HOST_USER, vendor_recipient_list)
         except ObjectDoesNotExist:
             # Log or handle the missing VendorProfile as needed
-            print(
-                f"Vendor {vendor.name} has no profile, skipping email notification.")
+            print(f"Vendor {vendor.name} has no profile, skipping email notification.")
 
     return render(request, 'events/booking_confirmation.html', {'booking': booking})
 
@@ -335,8 +318,8 @@ def my_view(request):
     """
     messages.success(request, "Event created successfully!")
     return redirect('event_list')
-
-
+    
+    
 class VendorLoginView(LoginView):
     """
     Custom login view for vendors, redirecting to the vendor dashboard on success.
@@ -344,52 +327,51 @@ class VendorLoginView(LoginView):
     template_name = 'events/vendor_login.html'
     redirect_authenticated_user = True
     success_url = reverse_lazy('vendor_dashboard')
-
-
+    
 def about_us(request):
     return render(request, 'events/about_us.html')
-
-
+    
+    
 def services(request):
-    # Fetch all services (optional, adjust based on your needs)
-    all_services = Service.objects.all()
+    all_services = Service.objects.all()  # Fetch all services (optional, adjust based on your needs)
     return render(request, 'events/services.html', {'services': all_services})
+    
+    
+    
+##def feedback_view(request):
+    #if request.method == 'POST':
+        #form = FeedbackForm(request.POST)
+        #if form.is_valid():
+            #form.save()
+            #messages.success(request, 'Thank you for your feedback!')
+            #return redirect('index')  # Redirect to the homepage or any other page after submission
+    #else:
+        #form = FeedbackForm()
 
+    #return render(request, 'events/feedback.html', {'form': form})
+    
+#def feedback_view(request):
+    #if request.method == 'POST':
+        #form = FeedbackForm(request.POST)
+        #if form.is_valid():
+           #feedback = form.save()
 
-# def feedback_view(request):
-    # if request.method == 'POST':
-    # form = FeedbackForm(request.POST)
-    # if form.is_valid():
-    # form.save()
-    # messages.success(request, 'Thank you for your feedback!')
-    # return redirect('index')  # Redirect to the homepage or any other page after submission
-    # else:
-    # form = FeedbackForm()
+            # Send Thank You Email
+            #send_mail(
+                #subject='Your Experience Matters to Us—Thank You!',
+                #message=f"Dear {feedback.customer_name},\n\nThank you for your feedback about {feedback.event}. We truly appreciate your thoughts and value your input. \n We strive for perfection, and your insights bring us closer to that goal.\n\nBest regards,\nThe SparkSet Team",
+               # from_email=settings.EMAIL_HOST_USER,
+                #recipient_list=[feedback.email],
+                #fail_silently=False,
+            #)
 
-    # return render(request, 'events/feedback.html', {'form': form})
-
-# def feedback_view(request):
-    # if request.method == 'POST':
-    # form = FeedbackForm(request.POST)
-    # if form.is_valid():
-    # feedback = form.save()
-
-    # Send Thank You Email
-    # send_mail(
-    # subject='Your Experience Matters to Us—Thank You!',
-    # message=f"Dear {feedback.customer_name},\n\nThank you for your feedback about {feedback.event}. We truly appreciate your thoughts and value your input. \n We strive for perfection, and your insights bring us closer to that goal.\n\nBest regards,\nThe SparkSet Team",
-    # from_email=settings.EMAIL_HOST_USER,
-    # recipient_list=[feedback.email],
-    # fail_silently=False,
-    # )
-
-    # messages.success(request, 'Your Experience Matters to Us—Thank You!')
-    # return redirect('index')  # Redirect to the homepage or any other page after submission
-    # else:
-    # form = FeedbackForm()
+            #messages.success(request, 'Your Experience Matters to Us—Thank You!')
+            #return redirect('index')  # Redirect to the homepage or any other page after submission
+    #else:
+        #form = FeedbackForm()
 
    # return render(request, 'events/feedback.html', {'form': form})
-
+    
 def feedback_view(request):
     if request.method == 'POST':
         form = FeedbackForm(request.POST)
@@ -408,10 +390,8 @@ def feedback_view(request):
                 fail_silently=False,
             )
 
-            messages.success(
-                request, 'Your Experience Matters to Us—Thank You!')
-            # Redirect to the homepage or any other page after submission
-            return redirect('index')
+            messages.success(request, 'Your Experience Matters to Us—Thank You!')
+            return redirect('index')  # Redirect to the homepage or any other page after submission
         else:
             # Debug: Form errors
             print("Form Errors:", form.errors)
@@ -419,8 +399,8 @@ def feedback_view(request):
         form = FeedbackForm()
 
     return render(request, 'events/feedback.html', {'form': form})
-
-
+    
+    
 @login_required
 def delete_booking(request, booking_id):
     """
@@ -439,13 +419,12 @@ def delete_booking(request, booking_id):
             messages.success(request, "Booking deleted successfully!")
             print("Booking deleted successfully!")
         else:
-            messages.error(
-                request, "You do not have permission to delete this booking.")
+            messages.error(request, "You do not have permission to delete this booking.")
             print("User does not have permission to delete the booking.")
 
     except Exception as e:
         print(f"Error occurred: {e}")
-        messages.error(
-            request, "An error occurred while deleting the booking.")
+        messages.error(request, "An error occurred while deleting the booking.")
 
     return HttpResponseRedirect(reverse('vendor_notifications'))
+

@@ -5,7 +5,6 @@ from .models import Booking, Vendor, VendorProfile
 from .models import Service
 from .models import Feedback
 
-
 class BookingForm(forms.ModelForm):
     start_date = forms.DateField(
         widget=forms.DateInput(attrs={'type': 'date'}),
@@ -36,8 +35,7 @@ class BookingForm(forms.ModelForm):
 
     class Meta:
         model = Booking
-        fields = ['start_date', 'end_date',
-                  'start_time', 'end_time', 'vendors']
+        fields = ['start_date', 'end_date', 'start_time', 'end_time', 'vendors']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -51,8 +49,7 @@ class VendorSignUpForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'company_name',
-                  'phone_number', 'vendor_type', 'password1', 'password2']
+        fields = ['username', 'email', 'company_name', 'phone_number', 'vendor_type', 'password1', 'password2']
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -71,18 +68,17 @@ class VendorSignUpForm(UserCreationForm):
                 phone_number=self.cleaned_data.get('phone_number')
             )
         return user
-# from django import forms
-# from .models import Service
-
+#from django import forms
+#from .models import Service
 
 class ServiceForm(forms.ModelForm):
     class Meta:
         model = Service
         fields = ['service_name', 'description', 'price', 'vendor_type']
-
+        
+        
 
 class FeedbackForm(forms.ModelForm):
     class Meta:
         model = Feedback
-        fields = ['customer_name', 'email',
-                  'event', 'rating', 'feedback_message']
+        fields = ['customer_name', 'email', 'event', 'rating', 'feedback_message']
