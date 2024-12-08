@@ -39,6 +39,8 @@ phases:
         else
           echo "Quality Gate PASSED."
         fi
+
+        
         
         
 artifacts:
