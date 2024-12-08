@@ -62,3 +62,4 @@ ruamel.yaml==0.16.6
 ruamel.yaml.clib==0.1.2
 # selinux==3.4
 
+pylint

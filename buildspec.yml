@@ -6,6 +6,34 @@ phases:
       python: 3.9
     commands:
       - pip install -r requirements.txt
+      - yum install -y bc
+  pre_build:
+    commands:
+      - echo "Running Pylint..."
+      # Run Pylint and capture the rating in a variable
+      - |
+        # Run Pylint and extract the score
+        PYTHON_FILES=$(find . -name "*.py")
+        echo "Analyzing Python files: $PYTHON_FILES"
+
+        pylint $PYTHON_FILES --exit-zero > pylint_report.txt
+
+        # Extract the Pylint score robustly
+        SCORE=$(pylint $PYTHON_FILES --exit-zero | grep -Eo 'Your code has been rated at [0-9]+\.[0-9]+' | grep -Eo '[0-9]+\.[0-9]+')
+
+        echo "Pylint Score: $SCORE"
+
+        # Set the threshold and fail if the score is below it
+        THRESHOLD=3.0
+        if (( $(echo "$SCORE < $THRESHOLD" | bc -l) )); then
+          echo "Pylint score $SCORE is below threshold $THRESHOLD. Failing the build."
+          exit 1
+        else
+          echo "Pylint score $SCORE meets the threshold $THRESHOLD. Build passed."
+        fi
+
+
+
   build:
     commands:
       - ls -l 
