@@ -1,0 +1,47 @@
+
+version: 0.2
+
+env:
+  secrets-manager:
+    LOGIN: arn:aws:secretsmanager:eu-west-1:250738637992:secret:Sparkset_planner-AGvoHw:sonartoken     # SonarQube token
+    HOST:  arn:aws:secretsmanager:eu-west-1:250738637992:secret:Sparkset_planner-AGvoHw:HOST           # SonarQube server URL
+    Organization: arn:aws:secretsmanager:eu-west-1:250738637992:secret:Sparkset_planner-AGvoHw:Organization  # Organization name in SonarQube
+    Project: arn:aws:secretsmanager:eu-west-1:250738637992:secret:Sparkset_planner-AGvoHw:Project     # Project key in SonarQube
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.9
+    commands:
+      - yum install -y jq
+      - echo "Installing SonarQube Scanner..."
+      - wget -O sonar-scanner-cli.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
+      - unzip sonar-scanner-cli.zip
+      - export PATH=$PATH:$(pwd)/sonar-scanner-5.0.1.3006-linux/bin
+
+  pre_build:
+    commands:
+      - echo "Preparing environment..."
+      - export SONAR_SCANNER_OPTS="-Xmx1024m"  # Optional: Memory settings
+      # Fetch Quality Gate status
+      - echo "Starting SonarQube scan..."
+      - sonar-scanner -Dsonar.projectKey=$Project -Dsonar.organization=$Organization -Dsonar.sources=.  -Dsonar.host.url=$HOST  -Dsonar.login=$LOGIN
+      - sleep 20 
+
+  build:
+    commands:
+      - |
+        SONAR_STATUS=$(curl -s -u $LOGIN: "$HOST/api/qualitygates/project_status?projectKey=$Project" | jq -r '.projectStatus.status')
+        echo "Quality Gate status: $SONAR_STATUS"
+        if [ "$SONAR_STATUS" != "OK" ]; then
+          echo "Quality Gate FAILED. Exiting pipeline."
+          exit 1
+        else
+          echo "Quality Gate PASSED."
+        fi
+        
+        
+artifacts:
+  files:
+    - "**/*"
+  discard-paths: no
