@@ -16,12 +16,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Service',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('service_name', models.CharField(max_length=100)),
                 ('description', models.TextField(blank=True)),
                 ('price', models.DecimalField(decimal_places=2, max_digits=10)),
-                ('vendor_type', models.CharField(choices=[('caterer', 'Caterer'), ('photographer', 'Photographer'), ('decorator', 'Decorator')], max_length=20)),
-                ('vendor', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('vendor_type', models.CharField(choices=[('caterer', 'Caterer'), (
+                    'photographer', 'Photographer'), ('decorator', 'Decorator')], max_length=20)),
+                ('vendor', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]
